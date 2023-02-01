@@ -48,7 +48,7 @@ export const ContactForm = () => {
       />
       <label className={css.formTitle}>Number </label>
       <input
-        className={css.coPhone}
+        className={css.contactNumber}
         type="tel"
         name="number"
         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
