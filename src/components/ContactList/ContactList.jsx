@@ -1,7 +1,9 @@
 import propTypes from 'prop-types';
 import css from './ContactList.module.css';
-import { removeContacts } from 'redux/contactsSlice';
+import { deleteContacts } from 'redux/operations';
 import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchContacts } from 'redux/operations';
 
 const ContactItem = ({ idx, name, number, onRemove }) => {
   return (
@@ -18,7 +20,6 @@ const ContactItem = ({ idx, name, number, onRemove }) => {
         Remove
       </button>
       </p>
-      
     </li>
   );
 };
@@ -28,19 +29,23 @@ export const ContactList = () => {
   const filter = useSelector(state => state.filter.status);
   const contacts = useSelector(state => state.contacts.items);
 
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
   const visibleContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(filter)
   );
   return (
     <ul className={css.contactList}>
-      {visibleContacts.map(({ id, name, number }, index) => (
+      {visibleContacts.map(({ id, name, phone }, index) => (
         <ContactItem
           key={id}
           name={name}
-          number={number}
+          number={phone}
           idx={id}
           onRemove={() => {
-            dispatch(removeContacts(id));
+            dispatch(deleteContacts(id));
           }}
         />
       ))}
